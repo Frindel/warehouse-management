@@ -1,31 +1,31 @@
 namespace WarehouseManagement.Domain;
 
-class Unit
+public class Unit
 {
     /// <summary>
-    /// Идентификатор еденицы измерения
+    /// Идентификатор единицы измерения
     /// </summary>
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     /// <summary>
-    /// Название еденицы измерения
+    /// Название единицы измерения
     /// </summary>
     public string Name { get; set; }
 
     /// <summary>
-    /// Статус еденицы измерения
+    /// Статус единицы измерения
     /// </summary>
     public bool IsArchived { get; set; }
 
     public Unit() { }
 
-    public Unit(string name, bool isArchived)
+    public Unit(string name, bool isArchived = false)
     {
         Name = name;
         IsArchived = isArchived;
     }
 
-    public Unit(int id, string name, bool isArchived) : this(name, isArchived)
+    public Unit(Guid id, string name, bool isArchived = false) : this(name, isArchived)
     {
         Id = id;
     }

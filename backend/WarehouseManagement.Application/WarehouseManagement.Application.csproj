@@ -1,9 +1,30 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Receipts\Commands\ChangeReceipt\" />
+    <Folder Include="Receipts\Commands\CreateReceipt\" />
+    <Folder Include="Receipts\Commands\DeleteReceipt\" />
+    <Folder Include="Receipts\Queries\FindReceipts\" />
+    <Folder Include="Resources\Commands\CreateResource\" />
+    <Folder Include="Resources\Commands\DeleteResource\" />
+    <Folder Include="Resources\Commands\RenameResource\" />
+    <Folder Include="Resources\Queries\GetAllResources\" />
+    <Folder Include="Units\Commands\DeleteUnit\" />
+    <Folder Include="Units\Queries\GetAllUnits\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="13.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WarehouseManagement.Domain\WarehouseManagement.Domain.csproj" />
+  </ItemGroup>
 
 </Project>

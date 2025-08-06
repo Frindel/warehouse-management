@@ -5,7 +5,7 @@ public class Resource
     /// <summary>
     /// Идентификатор ресурса
     /// </summary>
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     /// <summary>
     /// Название ресурса
@@ -25,7 +25,7 @@ public class Resource
         IsArchived = isArcived;
     }
 
-    public Resource(int id, string name, bool isArcived = false) : this(name, isArcived)
+    public Resource(Guid id, string name, bool isArcived = false) : this(name, isArcived)
     {
         Id = id;
     }

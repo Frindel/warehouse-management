@@ -1,11 +1,11 @@
 namespace WarehouseManagement.Domain;
 
-class ReceiptResource
+public class ReceiptResource
 {
     /// <summary>
     /// Идентификатор продукта поступления
     /// </summary>
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     /// <summary>
     /// Идентификатор документа поступления
@@ -38,7 +38,7 @@ class ReceiptResource
         Quantity = quantity;
     }
 
-    public ReceiptResource(int id, int receiptDocumentId, int quantity, Resource resource, Unit unit) : this(receiptDocumentId, quantity, resource, unit)
+    public ReceiptResource(Guid id, int receiptDocumentId, int quantity, Resource resource, Unit unit) : this(receiptDocumentId, quantity, resource, unit)
     {
         Id = id;
     }
