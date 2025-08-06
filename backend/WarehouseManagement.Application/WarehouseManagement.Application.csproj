@@ -11,12 +11,6 @@
     <Folder Include="Receipts\Commands\CreateReceipt\" />
     <Folder Include="Receipts\Commands\DeleteReceipt\" />
     <Folder Include="Receipts\Queries\FindReceipts\" />
-    <Folder Include="Resources\Commands\CreateResource\" />
-    <Folder Include="Resources\Commands\DeleteResource\" />
-    <Folder Include="Resources\Commands\RenameResource\" />
-    <Folder Include="Resources\Queries\GetAllResources\" />
-    <Folder Include="Units\Commands\DeleteUnit\" />
-    <Folder Include="Units\Queries\GetAllUnits\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,0 +1,85 @@
+﻿using Moq;
+using ServiceMock;
+using WarehouseManagement.Application.Common.Contracts;
+using WarehouseManagement.Application.Common.Exceptions;
+using WarehouseManagement.Application.Resources.Commands;
+
+namespace WarehouseManagement.Tests.Application.Resources;
+
+[TestFixture]
+public class DeleteResourceTests
+{
+    private ServiceMock<DeleteResourceCommandHandler> _handler;
+    
+    [SetUp]
+    public void Setup()
+    {
+        _handler = new();
+    }
+
+    [Test]
+    public async Task SuccessfullyDeleteResource()
+    {
+        // Arrange
+        var resourceId = Guid.NewGuid();
+        var command = new DeleteResourceCommand()
+        {
+            Id = resourceId
+        };
+        
+        _handler.GetParameterMock<IResourcesRepository>()
+            .Setup(ur => ur.IsExist(It.IsAny<Guid>()))
+            .ReturnsAsync(true);
+
+        _handler.GetParameterMock<IResourcesRepository>()
+            .Setup(ur => ur.IsUse(It.IsAny<Guid>()))
+            .ReturnsAsync(false);
+
+        _handler.GetParameterMock<IResourcesRepository>()
+            .Setup(ur => ur.Delete(It.IsAny<Guid>()));
+        
+        // Act
+        var deletedResourceId = await _handler.Service.Handle(command, CancellationToken.None);
+        
+        // Assert
+        Assert.That(deletedResourceId, Is.EqualTo(resourceId), "Не ожидаемый идентификатор ресурса");
+    }
+
+    [Test]
+    public void ThrowsResourceNotFoundException()
+    {
+        // Arrange
+        var command = new DeleteResourceCommand()
+        {
+            Id = Guid.NewGuid()
+        };
+        
+        _handler.GetParameterMock<IResourcesRepository>()
+            .Setup(ur => ur.IsExist(It.IsAny<Guid>()))
+            .ReturnsAsync(false);
+        
+        // Act / assert
+        Assert.ThrowsAsync<NotFoundException>(()=> _handler.Service.Handle(command, CancellationToken.None));
+    }
+
+    [Test]
+    public void ThrowsResourceIsUsedException()
+    {
+        // Arrange
+        var command = new DeleteResourceCommand()
+        {
+            Id = Guid.NewGuid()
+        };
+        
+        _handler.GetParameterMock<IResourcesRepository>()
+            .Setup(ur => ur.IsExist(It.IsAny<Guid>()))
+            .ReturnsAsync(true);
+
+        _handler.GetParameterMock<IResourcesRepository>()
+            .Setup(ur => ur.IsUse(It.IsAny<Guid>()))
+            .ReturnsAsync(true);
+        
+        // Act / assert
+        Assert.ThrowsAsync<InUseException>(()=> _handler.Service.Handle(command, CancellationToken.None));
+    }
+}
