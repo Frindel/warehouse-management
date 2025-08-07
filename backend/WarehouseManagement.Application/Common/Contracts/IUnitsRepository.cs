@@ -13,18 +13,16 @@ public interface IUnitsRepository
     Task<Guid> Create(Unit unit);
 
     /// <summary>
-    /// Проверяет, существует ли уже единица измерения с данным названием
+    /// Возвращает единицу измерения с указанным названием, если она существует
     /// </summary>
     /// <param name="name">Название единицы измерения</param>
-    /// <returns><c>true</c> - единица измерения существует; <c>false</c> - отсутствует</returns>
-    Task<bool> IsExist(string name);
+    Task<Unit?> TryGet(string name);
     
     /// <summary>
-    /// Проверяет, существует ли уже единица измерения с данным id
+    /// Возвращает единицу измерения с указанным id, если она существует
     /// </summary>
-    /// <param name="id">id единицы измерения</param>
-    /// <returns><c>true</c> - единица измерения существует; <c>false</c> - отсутствует</returns>
-    Task<bool> IsExist(Guid id);
+    /// <param name="id">Id единицы измерения</param>
+    Task<Unit?> TryGet(Guid id);
     
     /// <summary>
     /// Обновляет информацию о единицы измерения.

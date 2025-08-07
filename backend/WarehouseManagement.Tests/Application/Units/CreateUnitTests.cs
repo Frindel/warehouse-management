@@ -29,8 +29,8 @@ public class CreateUnitTests
 
         var savedUnitId = Guid.NewGuid();
         _handler.GetParameterMock<IUnitsRepository>()
-            .Setup(ur => ur.IsExist(It.IsAny<string>()))
-            .ReturnsAsync(false);
+            .Setup(ur => ur.TryGet(It.IsAny<string>()))
+            .ReturnsAsync(null as Unit);
         _handler.GetParameterMock<IUnitsRepository>()
             .Setup(ur => ur.Create(It.IsAny<Unit>()))
             .ReturnsAsync(savedUnitId);
@@ -53,8 +53,8 @@ public class CreateUnitTests
         };
         
         _handler.GetParameterMock<IUnitsRepository>()
-            .Setup(ur => ur.IsExist(It.IsAny<string>()))
-            .ReturnsAsync(true);
+            .Setup(ur => ur.TryGet(It.IsAny<string>()))
+            .ReturnsAsync(new Unit());
         
         // Act / assert
         Assert.ThrowsAsync<AlreadyExistsException>(() => _handler.Service.Handle(command, CancellationToken.None));

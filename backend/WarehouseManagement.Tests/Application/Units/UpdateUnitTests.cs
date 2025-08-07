@@ -31,8 +31,8 @@ public class UpdateUnitTests
         };
 
         _handler.GetParameterMock<IUnitsRepository>()
-            .Setup(ur => ur.IsExist(It.IsAny<Guid>()))
-            .ReturnsAsync(true);
+            .Setup(ur => ur.TryGet(It.IsAny<Guid>()))
+            .ReturnsAsync(new Unit());
         _handler.GetParameterMock<IUnitsRepository>()
             .Setup(ur => ur.Update(It.IsAny<Unit>()));
 
@@ -55,8 +55,8 @@ public class UpdateUnitTests
         };
         
         _handler.GetParameterMock<IUnitsRepository>()
-            .Setup(ur => ur.IsExist(It.IsAny<Guid>()))
-            .ReturnsAsync(false);
+            .Setup(ur => ur.TryGet(It.IsAny<Guid>()))
+            .ReturnsAsync(null as Unit);
 
         // Act / assert
         Assert.ThrowsAsync<NotFoundException>(()=> _handler.Service.Handle(command, CancellationToken.None));

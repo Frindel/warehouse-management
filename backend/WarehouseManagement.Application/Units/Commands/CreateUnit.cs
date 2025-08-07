@@ -29,7 +29,7 @@ public class CreateUnitCommandHandler : IRequestHandler<CreateUnitCommand, Guid>
     /// <exception cref="AlreadyExistsException">Единица с указанным названием уже существует</exception>
     public async Task<Guid> Handle(CreateUnitCommand command, CancellationToken cancellationToken)
     {
-        if (await _units.IsExist(command.Name))
+        if (await _units.TryGet(command.Name) != null)
             throw new AlreadyExistsException($"Unit with name {command.Name} already exists.");
 
         Guid unitId = await _units.Create(new Unit(command.Name));

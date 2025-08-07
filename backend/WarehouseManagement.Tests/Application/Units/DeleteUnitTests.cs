@@ -3,6 +3,7 @@ using ServiceMock;
 using WarehouseManagement.Application.Common.Contracts;
 using WarehouseManagement.Application.Common.Exceptions;
 using WarehouseManagement.Application.Units.Commands;
+using WarehouseManagement.Domain;
 
 namespace WarehouseManagement.Tests.Application.Units;
 
@@ -28,8 +29,8 @@ public class DeleteUnitTests
         };
         
         _handler.GetParameterMock<IUnitsRepository>()
-            .Setup(ur => ur.IsExist(It.IsAny<Guid>()))
-            .ReturnsAsync(true);
+            .Setup(ur => ur.TryGet(It.IsAny<Guid>()))
+            .ReturnsAsync(new Unit());
 
         _handler.GetParameterMock<IUnitsRepository>()
             .Setup(ur => ur.IsUse(It.IsAny<Guid>()))
@@ -55,8 +56,8 @@ public class DeleteUnitTests
         };
         
         _handler.GetParameterMock<IUnitsRepository>()
-            .Setup(ur => ur.IsExist(It.IsAny<Guid>()))
-            .ReturnsAsync(false);
+            .Setup(ur => ur.TryGet(It.IsAny<Guid>()))
+            .ReturnsAsync(null as Unit);
         
         // Act / assert
         Assert.ThrowsAsync<NotFoundException>(()=> _handler.Service.Handle(command, CancellationToken.None));
@@ -72,8 +73,8 @@ public class DeleteUnitTests
         };
         
         _handler.GetParameterMock<IUnitsRepository>()
-            .Setup(ur => ur.IsExist(It.IsAny<Guid>()))
-            .ReturnsAsync(true);
+            .Setup(ur => ur.TryGet(It.IsAny<Guid>()))
+            .ReturnsAsync(new Unit());
 
         _handler.GetParameterMock<IUnitsRepository>()
             .Setup(ur => ur.IsUse(It.IsAny<Guid>()))

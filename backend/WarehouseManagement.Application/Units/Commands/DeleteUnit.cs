@@ -20,7 +20,7 @@ public class DeleteUnitCommandHandler : IRequestHandler<DeleteUnitCommand, Guid>
     
     public async Task<Guid> Handle(DeleteUnitCommand command, CancellationToken cancellationToken)
     {
-        if (!await _units.IsExist(command.Id))
+        if (await _units.TryGet(command.Id) == null)
             throw new NotFoundException($"Unit with name {command.Id} not exists.");
         
         if (await _units.IsUse(command.Id))

@@ -25,7 +25,7 @@ public class ChangeResourceCommandHandler : IRequestHandler<ChangeResourceComman
     
     public async Task<Guid> Handle(ChangeResourceCommand command, CancellationToken cancellationToken)
     {
-        if (!await _resources.IsExist(command.Id))
+        if (await _resources.TryGet(command.Id) == null)
             throw new NotFoundException($"Resource with id {command.Id} not exists.");
         
         await _resources.Update(new Resource(command.Id, command.Name, command.IsArchived));

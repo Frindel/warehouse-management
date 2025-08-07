@@ -24,7 +24,7 @@ public class ChangeUnitCommandHandler : IRequestHandler<ChangeUnitCommand, Guid>
     
     public async Task<Guid> Handle(ChangeUnitCommand command, CancellationToken cancellationToken)
     {
-        if (!await _units.IsExist(command.Id))
+        if (await _units.TryGet(command.Id) == null)
             throw new NotFoundException($"Unit with id {command.Id} not exists.");
         
         await _units.Update(new Unit(command.Id, command.Name, command.IsArchived));

@@ -21,7 +21,7 @@ public class CreateResourceCommandHandler : IRequestHandler<CreateResourceComman
     
     public async Task<Guid> Handle(CreateResourceCommand command, CancellationToken cancellationToken)
     {
-        if (await _resources.IsExist(command.Name))
+        if (await _resources.TryGet(command.Name) != null)
             throw new AlreadyExistsException($"Resource with name {command.Name} already exists.");
 
         Guid resourceId = await _resources.Create(new Resource(command.Name));

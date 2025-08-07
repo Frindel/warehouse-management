@@ -12,18 +12,16 @@ public interface IResourcesRepository
     Task<Guid> Create(Resource resource);
 
     /// <summary>
-    /// Проверяет, существует ли уже ресурс с данным названием
+    /// Возвращает ресурс с указанным названием, если он существует
     /// </summary>
-    /// <param name="name">Название ресурса</param>
-    /// <returns><c>true</c> - ресурс существует; <c>false</c> - ресурс</returns>
-    Task<bool> IsExist(string name);
-    
+    /// <param name="name">Id ресурса</param>
+    Task<Resource?> TryGet(string name);
+
     /// <summary>
-    /// Проверяет, существует ли уже ресурс с данным id
+    /// Возвращает единицу измерения с указанным id, если она существует
     /// </summary>
-    /// <param name="id">id ресурса</param>
-    /// <returns><c>true</c> - ресурс существует; <c>false</c> - отсутствует</returns>
-    Task<bool> IsExist(Guid id);
+    /// <param name="id">Id ресурса</param>
+    Task<Resource?> TryGet(Guid id);
     
     /// <summary>
     /// Обновляет информацию о ресурсе

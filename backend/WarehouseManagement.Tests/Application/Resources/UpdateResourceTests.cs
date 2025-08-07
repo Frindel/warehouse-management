@@ -31,8 +31,8 @@ public class UpdateResourceTests
         };
 
         _handler.GetParameterMock<IResourcesRepository>()
-            .Setup(ur => ur.IsExist(It.IsAny<Guid>()))
-            .ReturnsAsync(true);
+            .Setup(ur => ur.TryGet(It.IsAny<Guid>()))
+            .ReturnsAsync(new Resource());
         _handler.GetParameterMock<IResourcesRepository>()
             .Setup(ur => ur.Update(It.IsAny<Resource>()));
 
@@ -55,8 +55,8 @@ public class UpdateResourceTests
         };
         
         _handler.GetParameterMock<IResourcesRepository>()
-            .Setup(ur => ur.IsExist(It.IsAny<Guid>()))
-            .ReturnsAsync(false);
+            .Setup(ur => ur.TryGet(It.IsAny<Guid>()))
+            .ReturnsAsync(null as Resource);
 
         // Act / assert
         Assert.ThrowsAsync<NotFoundException>(()=> _handler.Service.Handle(command, CancellationToken.None));

@@ -29,8 +29,8 @@ public class CreateResourceTests
 
         var savedResourceId = Guid.NewGuid();
         _handler.GetParameterMock<IResourcesRepository>()
-            .Setup(ur => ur.IsExist(It.IsAny<string>()))
-            .ReturnsAsync(false);
+            .Setup(ur => ur.TryGet(It.IsAny<string>()))
+            .ReturnsAsync(null as Resource);
         _handler.GetParameterMock<IResourcesRepository>()
             .Setup(ur => ur.Create(It.IsAny<Resource>()))
             .ReturnsAsync(savedResourceId);
@@ -52,8 +52,8 @@ public class CreateResourceTests
         };
         
         _handler.GetParameterMock<IResourcesRepository>()
-            .Setup(ur => ur.IsExist(It.IsAny<string>()))
-            .ReturnsAsync(true);
+            .Setup(ur => ur.TryGet(It.IsAny<string>()))
+            .ReturnsAsync(new Resource());
         
         // Act / assert
         Assert.ThrowsAsync<AlreadyExistsException>(() => _handler.Service.Handle(command, CancellationToken.None));

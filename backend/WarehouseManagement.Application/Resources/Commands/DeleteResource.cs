@@ -20,7 +20,7 @@ public class DeleteResourceCommandHandler : IRequestHandler<DeleteResourceComman
     
     public async Task<Guid> Handle(DeleteResourceCommand command, CancellationToken cancellationToken)
     {
-        if (!await _resources.IsExist(command.Id))
+        if (await _resources.TryGet(command.Id) == null)
             throw new NotFoundException($"Resource with name {command.Id} not exists.");
         
         if (await _resources.IsUse(command.Id))
