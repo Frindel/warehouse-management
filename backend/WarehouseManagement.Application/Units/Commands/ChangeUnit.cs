@@ -5,7 +5,7 @@ using Unit = WarehouseManagement.Domain.Unit;
 
 namespace WarehouseManagement.Application.Units.Commands;
 
-public record ChangeUnitCommand : IRequest<Guid>
+public record ChangeUnitCommand : IRequest<Unit>
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = null!;
@@ -13,7 +13,7 @@ public record ChangeUnitCommand : IRequest<Guid>
     public bool IsArchived { get; set; }
 }
 
-public class ChangeUnitCommandHandler : IRequestHandler<ChangeUnitCommand, Guid>
+public class ChangeUnitCommandHandler : IRequestHandler<ChangeUnitCommand, Unit>
 {
     private IUnitsRepository _units;
     
@@ -22,12 +22,12 @@ public class ChangeUnitCommandHandler : IRequestHandler<ChangeUnitCommand, Guid>
         _units = units;
     }
     
-    public async Task<Guid> Handle(ChangeUnitCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(ChangeUnitCommand command, CancellationToken cancellationToken)
     {
         if (await _units.TryGet(command.Id) == null)
             throw new NotFoundException($"Unit with id {command.Id} not exists.");
         
         await _units.Update(new Unit(command.Id, command.Name, command.IsArchived));
-        return command.Id;
+        return (await _units.TryGet(command.Id))!;
     }
 }

@@ -29,15 +29,15 @@ public class DeleteResourceTests
         };
         
         _handler.GetParameterMock<IResourcesRepository>()
-            .Setup(ur => ur.TryGet(It.IsAny<Guid>()))
+            .Setup(rr => rr.TryGet(It.IsAny<Guid>()))
             .ReturnsAsync(new Resource());
 
         _handler.GetParameterMock<IResourcesRepository>()
-            .Setup(ur => ur.IsUse(It.IsAny<Guid>()))
+            .Setup(rr => rr.IsUse(It.IsAny<Guid>()))
             .ReturnsAsync(false);
 
         _handler.GetParameterMock<IResourcesRepository>()
-            .Setup(ur => ur.Delete(It.IsAny<Guid>()));
+            .Setup(rr => rr.Delete(It.IsAny<Guid>()));
         
         // Act
         var deletedResourceId = await _handler.Service.Handle(command, CancellationToken.None);
@@ -56,7 +56,7 @@ public class DeleteResourceTests
         };
         
         _handler.GetParameterMock<IResourcesRepository>()
-            .Setup(ur => ur.TryGet(It.IsAny<Guid>()))
+            .Setup(rr => rr.TryGet(It.IsAny<Guid>()))
             .ReturnsAsync(null as Resource);
         
         // Act / assert
@@ -73,11 +73,11 @@ public class DeleteResourceTests
         };
         
         _handler.GetParameterMock<IResourcesRepository>()
-            .Setup(ur => ur.TryGet(It.IsAny<Guid>()))
+            .Setup(rr => rr.TryGet(It.IsAny<Guid>()))
             .ReturnsAsync(new Resource());
 
         _handler.GetParameterMock<IResourcesRepository>()
-            .Setup(ur => ur.IsUse(It.IsAny<Guid>()))
+            .Setup(rr => rr.IsUse(It.IsAny<Guid>()))
             .ReturnsAsync(true);
         
         // Act / assert

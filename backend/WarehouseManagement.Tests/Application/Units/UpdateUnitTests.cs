@@ -22,25 +22,28 @@ public class UpdateUnitTests
     public async Task SuccessfullyUpdateUnit()
     {
         // Arrange
-        var unitId = Guid.NewGuid();
         var command = new ChangeUnitCommand()
         {
-            Id = unitId,
+            Id = Guid.NewGuid(),
             Name = "kg",
             IsArchived = false
         };
 
+        var targetUnit = new Unit(command.Id, command.Name, command.IsArchived);
         _handler.GetParameterMock<IUnitsRepository>()
             .Setup(ur => ur.TryGet(It.IsAny<Guid>()))
             .ReturnsAsync(new Unit());
         _handler.GetParameterMock<IUnitsRepository>()
             .Setup(ur => ur.Update(It.IsAny<Unit>()));
+        _handler.GetParameterMock<IUnitsRepository>()
+            .Setup(ur => ur.TryGet(It.IsAny<Guid>()))
+            .ReturnsAsync(targetUnit);
 
         // Act
-        var changedUnitId = await _handler.Service.Handle(command, CancellationToken.None);
+        var changedUnit = await _handler.Service.Handle(command, CancellationToken.None);
 
         // Assert
-        Assert.That(changedUnitId, Is.EqualTo(unitId), "Не ожидаемый идентификатор единицы измерения");
+        Assert.That(changedUnit, Is.EqualTo(targetUnit));
     }
     
     [Test]

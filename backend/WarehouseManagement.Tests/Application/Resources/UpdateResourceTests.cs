@@ -22,25 +22,28 @@ public class UpdateResourceTests
     public async Task SuccessfullyUpdateResource()
     {
         // Arrange
-        var resourceId = Guid.NewGuid();
         var command = new ChangeResourceCommand()
         {
-            Id = resourceId,
+            Id = Guid.NewGuid(),
             Name = "iron",
             IsArchived = false
         };
 
+        var targetResource = new Resource(command.Id, command.Name, command.IsArchived);
         _handler.GetParameterMock<IResourcesRepository>()
-            .Setup(ur => ur.TryGet(It.IsAny<Guid>()))
+            .Setup(rr => rr.TryGet(It.IsAny<Guid>()))
             .ReturnsAsync(new Resource());
         _handler.GetParameterMock<IResourcesRepository>()
-            .Setup(ur => ur.Update(It.IsAny<Resource>()));
+            .Setup(rr => rr.Update(It.IsAny<Resource>()));
+        _handler.GetParameterMock<IResourcesRepository>()
+            .Setup(rr => rr.TryGet(It.IsAny<Guid>()))
+            .ReturnsAsync(targetResource);
 
         // Act
-        var changedResourceId = await _handler.Service.Handle(command, CancellationToken.None);
+        var changedResource = await _handler.Service.Handle(command, CancellationToken.None);
 
         // Assert
-        Assert.That(changedResourceId, Is.EqualTo(resourceId), "Не ожидаемый идентификатор ресурса");
+        Assert.That(changedResource, Is.EqualTo(targetResource));
     }
     
     [Test]
@@ -55,7 +58,7 @@ public class UpdateResourceTests
         };
         
         _handler.GetParameterMock<IResourcesRepository>()
-            .Setup(ur => ur.TryGet(It.IsAny<Guid>()))
+            .Setup(rr => rr.TryGet(It.IsAny<Guid>()))
             .ReturnsAsync(null as Resource);
 
         // Act / assert

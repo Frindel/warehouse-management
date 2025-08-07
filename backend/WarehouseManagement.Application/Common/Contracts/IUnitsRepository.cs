@@ -4,7 +4,6 @@ namespace WarehouseManagement.Application.Common.Contracts;
 
 public interface IUnitsRepository
 {
-
     /// <summary>
     /// Создает новую единицу измерения.
     /// </summary>
@@ -17,13 +16,13 @@ public interface IUnitsRepository
     /// </summary>
     /// <param name="name">Название единицы измерения</param>
     Task<Unit?> TryGet(string name);
-    
+
     /// <summary>
     /// Возвращает единицу измерения с указанным id, если она существует
     /// </summary>
     /// <param name="id">Id единицы измерения</param>
     Task<Unit?> TryGet(Guid id);
-    
+
     /// <summary>
     /// Обновляет информацию о единицы измерения.
     /// </summary>
@@ -44,8 +43,9 @@ public interface IUnitsRepository
     Task Delete(Guid id);
 
     /// <summary>
-    /// Возвращает список всех единиц измерения
+    /// Возвращает список единиц измерения. В случае, если не указанны id будут возвращены все единицы измерения.
+    /// <param name="ids">Id выбираемых единиц измерения</param>
     /// </summary>
-    /// <returns>Еденицы измерения</returns>
-    Task<List<Unit>> GetAll();
+    /// <returns>Единицы измерения</returns>
+    Task<List<Unit>> Find(List<Guid>? ids = null);
 }

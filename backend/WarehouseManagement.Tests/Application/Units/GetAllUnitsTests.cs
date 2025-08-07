@@ -29,7 +29,7 @@ public class GetAllUnitsTests
             new Unit(Guid.NewGuid(), "ml")
         };
         _handler.GetParameterMock<IUnitsRepository>()
-            .Setup(x => x.GetAll())
+            .Setup(x => x.Find(It.IsAny<List<Guid>?>()))
             .ReturnsAsync(savedUnits);
 
         // Act

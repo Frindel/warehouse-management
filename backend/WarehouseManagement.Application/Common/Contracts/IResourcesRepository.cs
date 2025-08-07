@@ -41,10 +41,11 @@ public interface IResourcesRepository
     /// </summary>
     /// <param name="id">Id ресурса</param>
     Task Delete(Guid id);
-
+    
     /// <summary>
-    /// Возвращает список всех ресурсов
+    /// Возвращает список всех ресурсов. В случае, если не указанны id будут возвращены все ресурсы.
+    /// <param name="ids">Id выбираемых ресурсов</param>
     /// </summary>
-    /// <returns>Ресурсы</returns>
-    Task<List<Resource>> GetAll();
+    /// <returns>Единицы измерения</returns>
+    Task<List<Resource>> Find(List<Guid>? ids = null);
 }

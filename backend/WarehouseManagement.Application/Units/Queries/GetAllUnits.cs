@@ -20,6 +20,6 @@ public class GetAllUnitsQueryHandler : IRequestHandler<GetAllUnitsQuery, List<Un
     
     public async Task<List<Unit>> Handle(GetAllUnitsQuery request, CancellationToken cancellationToken)
     {
-        return await _units.GetAll();
+        return await _units.Find();
     }
 }

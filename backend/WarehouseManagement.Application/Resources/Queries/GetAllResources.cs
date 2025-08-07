@@ -20,6 +20,6 @@ public class GetAllResourcesQueryHandler : IRequestHandler<GetAllResourcesQuery,
     
     public async Task<List<Resource>> Handle(GetAllResourcesQuery query, CancellationToken cancellationToken)
     {
-        return await _resources.GetAll();
+        return await _resources.Find();
     }
 }

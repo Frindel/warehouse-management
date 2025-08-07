@@ -5,7 +5,7 @@ using Unit = WarehouseManagement.Domain.Unit;
 
 namespace WarehouseManagement.Application.Units.Commands;
 
-public record CreateUnitCommand : IRequest<Guid>
+public record CreateUnitCommand : IRequest<Unit>
 {
     /// <summary>
     /// Название единицы измерения
@@ -13,7 +13,7 @@ public record CreateUnitCommand : IRequest<Guid>
     public string Name { get; set; } = null!;
 }
 
-public class CreateUnitCommandHandler : IRequestHandler<CreateUnitCommand, Guid>
+public class CreateUnitCommandHandler : IRequestHandler<CreateUnitCommand, Unit>
 {
     private IUnitsRepository _units;
     
@@ -25,14 +25,14 @@ public class CreateUnitCommandHandler : IRequestHandler<CreateUnitCommand, Guid>
     /// <summary>
     ///  Сохраняет новую единицу измерения
     /// </summary>
-    /// <returns>Id новой единицы измерения</returns>
+    /// <returns>Сохраненная иденица измерения</returns>
     /// <exception cref="AlreadyExistsException">Единица с указанным названием уже существует</exception>
-    public async Task<Guid> Handle(CreateUnitCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(CreateUnitCommand command, CancellationToken cancellationToken)
     {
         if (await _units.TryGet(command.Name) != null)
             throw new AlreadyExistsException($"Unit with name {command.Name} already exists.");
 
         Guid unitId = await _units.Create(new Unit(command.Name));
-        return unitId;
+        return (await _units.TryGet(unitId))!;
     }
 }

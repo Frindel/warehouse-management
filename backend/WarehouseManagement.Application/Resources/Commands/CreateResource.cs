@@ -5,12 +5,12 @@ using WarehouseManagement.Domain;
 
 namespace WarehouseManagement.Application.Resources.Commands;
 
-public record CreateResourceCommand : IRequest<Guid>
+public record CreateResourceCommand : IRequest<Resource>
 {
     public string Name { get; set; } = null!;
 }
 
-public class CreateResourceCommandHandler : IRequestHandler<CreateResourceCommand, Guid>
+public class CreateResourceCommandHandler : IRequestHandler<CreateResourceCommand, Resource>
 {
     private readonly IResourcesRepository _resources;
     
@@ -19,12 +19,12 @@ public class CreateResourceCommandHandler : IRequestHandler<CreateResourceComman
         _resources = resources;
     }
     
-    public async Task<Guid> Handle(CreateResourceCommand command, CancellationToken cancellationToken)
+    public async Task<Resource> Handle(CreateResourceCommand command, CancellationToken cancellationToken)
     {
         if (await _resources.TryGet(command.Name) != null)
             throw new AlreadyExistsException($"Resource with name {command.Name} already exists.");
 
         Guid resourceId = await _resources.Create(new Resource(command.Name));
-        return resourceId;
+        return (await _resources.TryGet(resourceId)!)!;
     }
 }

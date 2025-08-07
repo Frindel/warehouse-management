@@ -11,13 +11,13 @@ namespace WarehouseManagement.Tests.Application.Resources;
 public class CreateResourceTests
 {
     private ServiceMock<CreateResourceCommandHandler> _handler;
-    
+
     [SetUp]
     public void Setup()
     {
         _handler = new();
     }
-    
+
     [Test]
     public async Task SuccessfullyCreateResource()
     {
@@ -27,21 +27,24 @@ public class CreateResourceTests
             Name = "kg"
         };
 
-        var savedResourceId = Guid.NewGuid();
+        var targetResource = new Resource(Guid.NewGuid(), command.Name);
         _handler.GetParameterMock<IResourcesRepository>()
-            .Setup(ur => ur.TryGet(It.IsAny<string>()))
+            .Setup(rr => rr.TryGet(It.IsAny<string>()))
             .ReturnsAsync(null as Resource);
         _handler.GetParameterMock<IResourcesRepository>()
-            .Setup(ur => ur.Create(It.IsAny<Resource>()))
-            .ReturnsAsync(savedResourceId);
-        
+            .Setup(rr => rr.Create(It.IsAny<Resource>()))
+            .ReturnsAsync(targetResource.Id);
+        _handler.GetParameterMock<IResourcesRepository>()
+            .Setup(rr => rr.TryGet(It.IsAny<Guid>()))
+            .ReturnsAsync(targetResource);
+
         // Act
-        var ResourceId = await _handler.Service.Handle(command, CancellationToken.None);
+        var savedResource = await _handler.Service.Handle(command, CancellationToken.None);
 
         // Assert
-        Assert.That(ResourceId, Is.EqualTo(savedResourceId), "Не ожидаемый идентификатор ресурса");
+        Assert.That(savedResource, Is.EqualTo(targetResource));
     }
-    
+
     [Test]
     public void ThrowsResourceAlreadyExistsException()
     {
@@ -50,13 +53,12 @@ public class CreateResourceTests
         {
             Name = "kg"
         };
-        
+
         _handler.GetParameterMock<IResourcesRepository>()
-            .Setup(ur => ur.TryGet(It.IsAny<string>()))
+            .Setup(rr=> rr.TryGet(It.IsAny<string>()))
             .ReturnsAsync(new Resource());
-        
+
         // Act / assert
         Assert.ThrowsAsync<AlreadyExistsException>(() => _handler.Service.Handle(command, CancellationToken.None));
     }
-    
 }

@@ -10,7 +10,7 @@ namespace WarehouseManagement.Tests.Application.Resources;
 public class GetAllResourceTests
 {
     private ServiceMock<GetAllResourcesQueryHandler> _handler;
-    
+
     [SetUp]
     public void Setup()
     {
@@ -29,7 +29,7 @@ public class GetAllResourceTests
             new Resource(Guid.NewGuid(), "copper")
         };
         _handler.GetParameterMock<IResourcesRepository>()
-            .Setup(x => x.GetAll())
+            .Setup(rr => rr.Find(It.IsAny<List<Guid>?>()))
             .ReturnsAsync(savedResources);
 
         // Act

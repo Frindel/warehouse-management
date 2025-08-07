@@ -27,22 +27,25 @@ public class CreateUnitTests
             Name = "kg"
         };
 
-        var savedUnitId = Guid.NewGuid();
+        var targetUnit = new Unit(Guid.NewGuid(), command.Name);
+        var storage = new List<Unit>();
         _handler.GetParameterMock<IUnitsRepository>()
             .Setup(ur => ur.TryGet(It.IsAny<string>()))
             .ReturnsAsync(null as Unit);
         _handler.GetParameterMock<IUnitsRepository>()
             .Setup(ur => ur.Create(It.IsAny<Unit>()))
-            .ReturnsAsync(savedUnitId);
+            .ReturnsAsync(targetUnit.Id);
+        _handler.GetParameterMock<IUnitsRepository>()
+            .Setup(ur => ur.TryGet(It.IsAny<Guid>()))
+            .ReturnsAsync(targetUnit);
         
         // Act
-        var unitId = await _handler.Service.Handle(command, CancellationToken.None);
+        var savedUnit = await _handler.Service.Handle(command, CancellationToken.None);
 
         // Assert
-        Assert.That(unitId, Is.EqualTo(savedUnitId), "Не ожидаемый идентификатор единицы измерения");
+        Assert.That(savedUnit, Is.EqualTo(targetUnit));
     }
     
-    // запись с данным именем уже существует
     [Test]
     public void ThrowsUnitAlreadyExistsException()
     {
