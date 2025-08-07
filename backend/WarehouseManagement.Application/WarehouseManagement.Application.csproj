@@ -7,13 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Receipts\Commands\ChangeReceipt\" />
-    <Folder Include="Receipts\Commands\CreateReceipt\" />
-    <Folder Include="Receipts\Commands\DeleteReceipt\" />
-    <Folder Include="Receipts\Queries\FindReceipts\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="MediatR" Version="13.0.0" />
   </ItemGroup>
 

@@ -1,14 +1,14 @@
 namespace WarehouseManagement.Domain;
 
-public class ReceiptDocument
+public class Receipt
 {
     /// <summary>
-    /// Идентификатор документа поступления
+    /// Идентификатор поступления
     /// </summary>
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Номер документа поступления
+    /// Номер поступления
     /// </summary>
     public string Number { get; set; }
 
@@ -22,9 +22,9 @@ public class ReceiptDocument
     /// </summary>
     public List<ReceiptResource> Resources { get; set; } = new();
 
-    public ReceiptDocument() { }
+    public Receipt() { }
 
-    public ReceiptDocument(string number, DateOnly date, List<ReceiptResource> resources)
+    public Receipt(string number, DateOnly date, List<ReceiptResource> resources)
     {
         ArgumentNullException.ThrowIfNull(number);
         
@@ -33,7 +33,7 @@ public class ReceiptDocument
         Resources = resources;
     }
 
-    public ReceiptDocument(Guid id, string number, DateOnly date, List<ReceiptResource> resources) : this(number, date, resources)
+    public Receipt(Guid id, string number, DateOnly date, List<ReceiptResource> resources) : this(number, date, resources)
     {
         Id = id;
     }

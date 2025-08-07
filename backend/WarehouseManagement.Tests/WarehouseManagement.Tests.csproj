@@ -23,10 +23,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Application\Receipts\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\WarehouseManagement.Application\WarehouseManagement.Application.csproj" />
     </ItemGroup>
 
