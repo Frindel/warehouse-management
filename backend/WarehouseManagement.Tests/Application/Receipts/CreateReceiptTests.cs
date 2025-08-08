@@ -48,7 +48,7 @@ public class CreateReceiptTests
             new ReceiptResource(10, resource, unit)
         });
 
-        _handler.GetParameterMock<IReceiptDocumentsRepository>()
+        _handler.GetParameterMock<IReceiptsRepository>()
             .Setup(r => r.TryGet(command.Number))
             .ReturnsAsync((Receipt)null!);
 
@@ -60,11 +60,11 @@ public class CreateReceiptTests
             .Setup(u => u.TryGet(unitId))
             .ReturnsAsync(unit);
 
-        _handler.GetParameterMock<IReceiptDocumentsRepository>()
+        _handler.GetParameterMock<IReceiptsRepository>()
             .Setup(r => r.Create(It.IsAny<Receipt>()))
             .ReturnsAsync(receiptId);
 
-        _handler.GetParameterMock<IReceiptDocumentsRepository>()
+        _handler.GetParameterMock<IReceiptsRepository>()
             .Setup(r => r.TryGet(receiptId))
             .ReturnsAsync(expectedReceipt);
 
@@ -85,7 +85,7 @@ public class CreateReceiptTests
             Date = DateOnly.FromDateTime(DateTime.Now),
         };
 
-        _handler.GetParameterMock<IReceiptDocumentsRepository>()
+        _handler.GetParameterMock<IReceiptsRepository>()
             .Setup(r => r.TryGet(command.Number))
             .ReturnsAsync(new Receipt());
 
@@ -115,7 +115,7 @@ public class CreateReceiptTests
             }
         };
 
-        _handler.GetParameterMock<IReceiptDocumentsRepository>()
+        _handler.GetParameterMock<IReceiptsRepository>()
             .Setup(r => r.TryGet(command.Number))
             .ReturnsAsync((Receipt)null!);
 
@@ -152,7 +152,7 @@ public class CreateReceiptTests
 
         var resource = new Resource(resourceId, "iron");
 
-        _handler.GetParameterMock<IReceiptDocumentsRepository>()
+        _handler.GetParameterMock<IReceiptsRepository>()
             .Setup(r => r.TryGet(command.Number))
             .ReturnsAsync((Receipt)null!);
 

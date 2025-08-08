@@ -2,7 +2,7 @@
 
 namespace WarehouseManagement.Application.Common.Contracts;
 
-public interface IReceiptDocumentsRepository
+public interface IReceiptsRepository
 {
     /// <summary>
     ///  Возвращает документ поступления с указанным названием, если он существует

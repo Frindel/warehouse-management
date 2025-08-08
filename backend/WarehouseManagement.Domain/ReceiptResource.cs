@@ -22,6 +22,9 @@ public class ReceiptResource : ICloneable
     /// </summary>
     public Unit Unit { get; set; }
 
+    public ReceiptResource()
+    {}
+    
     public ReceiptResource(int quantity, Resource resource, Unit unit)
     {
         ArgumentNullException.ThrowIfNull(resource);

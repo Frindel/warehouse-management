@@ -11,9 +11,9 @@ public record DeleteReceiptCommand : IRequest<Guid>
 
 public class DeleteReceiptCommandHandler : IRequestHandler<DeleteReceiptCommand, Guid>
 {
-    private readonly IReceiptDocumentsRepository _receipts;
+    private readonly IReceiptsRepository _receipts;
 
-    public DeleteReceiptCommandHandler(IReceiptDocumentsRepository receipts)
+    public DeleteReceiptCommandHandler(IReceiptsRepository receipts)
     {
         _receipts = receipts;
     }

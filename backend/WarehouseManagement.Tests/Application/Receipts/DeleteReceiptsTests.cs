@@ -24,11 +24,11 @@ public class DeleteReceiptsTests
         var receiptId = Guid.NewGuid();
         var command = new DeleteReceiptCommand { Id = receiptId };
 
-        _handler.GetParameterMock<IReceiptDocumentsRepository>()
+        _handler.GetParameterMock<IReceiptsRepository>()
             .Setup(r => r.TryGet(It.IsAny<Guid>()))
             .ReturnsAsync(new Receipt());
 
-        _handler.GetParameterMock<IReceiptDocumentsRepository>()
+        _handler.GetParameterMock<IReceiptsRepository>()
             .Setup(r => r.Delete(It.IsAny<Guid>()))
             .Returns(Task.CompletedTask);
 
@@ -45,7 +45,7 @@ public class DeleteReceiptsTests
         // Arrange
         var command = new DeleteReceiptCommand { Id = Guid.NewGuid() };
 
-        _handler.GetParameterMock<IReceiptDocumentsRepository>()
+        _handler.GetParameterMock<IReceiptsRepository>()
             .Setup(r => r.TryGet(It.IsAny<Guid>()))
             .ReturnsAsync(null as Receipt);
 

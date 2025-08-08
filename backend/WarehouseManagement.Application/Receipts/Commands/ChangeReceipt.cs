@@ -31,10 +31,10 @@ public class ChangingReceiptResource
 
 public class ChangeReceiptCommandHandler : IRequestHandler<ChangeReceiptCommand, Receipt>
 {
-    private readonly IReceiptDocumentsRepository _receipts;
+    private readonly IReceiptsRepository _receipts;
     private readonly ReceiptsHelper _helper;
 
-    public ChangeReceiptCommandHandler(IReceiptDocumentsRepository receipts, ReceiptsHelper helpers)
+    public ChangeReceiptCommandHandler(IReceiptsRepository receipts, ReceiptsHelper helpers)
     {
         _receipts = receipts;
         _helper = helpers;

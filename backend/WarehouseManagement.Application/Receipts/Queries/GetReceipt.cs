@@ -12,9 +12,9 @@ public record GetReceiptQuery : IRequest<Receipt>
 
 public class GetReceiptQueryHandler : IRequestHandler<GetReceiptQuery, Receipt>
 {
-    private readonly IReceiptDocumentsRepository _receipts;
+    private readonly IReceiptsRepository _receipts;
 
-    public GetReceiptQueryHandler(IReceiptDocumentsRepository receipts)
+    public GetReceiptQueryHandler(IReceiptsRepository receipts)
     {
         _receipts = receipts;
     }

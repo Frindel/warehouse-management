@@ -26,10 +26,10 @@ public class CreatingReceiptResource
 
 public class CreateReceiptCommandHandler : IRequestHandler<CreateReceiptCommand, Receipt>
 {
-    private readonly IReceiptDocumentsRepository _receipts;
+    private readonly IReceiptsRepository _receipts;
     private readonly ReceiptsHelper _helper;
 
-    public CreateReceiptCommandHandler(IReceiptDocumentsRepository receipts, ReceiptsHelper helper)
+    public CreateReceiptCommandHandler(IReceiptsRepository receipts, ReceiptsHelper helper)
     {
         _receipts = receipts;
         _helper = helper;

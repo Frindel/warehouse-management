@@ -52,11 +52,11 @@ public class ChangeReceiptTests
             }
         };
 
-        _handler.GetParameterMock<IReceiptDocumentsRepository>()
+        _handler.GetParameterMock<IReceiptsRepository>()
             .Setup(r => r.TryGet(command.Number))
             .ReturnsAsync(existingReceipt); // Existing receipt found
 
-        _handler.GetParameterMock<IReceiptDocumentsRepository>()
+        _handler.GetParameterMock<IReceiptsRepository>()
             .Setup(r => r.TryGet(command.Id))
             .ReturnsAsync(existingReceipt); // After update
 
@@ -68,7 +68,7 @@ public class ChangeReceiptTests
             .Setup(u => u.TryGet(unitId))
             .ReturnsAsync(unit);
 
-        _handler.GetParameterMock<IReceiptDocumentsRepository>()
+        _handler.GetParameterMock<IReceiptsRepository>()
             .Setup(r => r.Update(It.IsAny<Receipt>()))
             .Returns(Task.CompletedTask);
 
@@ -94,7 +94,7 @@ public class ChangeReceiptTests
             Resources = new()
         };
 
-        _handler.GetParameterMock<IReceiptDocumentsRepository>()
+        _handler.GetParameterMock<IReceiptsRepository>()
             .Setup(r => r.TryGet(command.Number))
             .ReturnsAsync((Receipt)null!); // Receipt not found
 
@@ -128,7 +128,7 @@ public class ChangeReceiptTests
             }
         };
 
-        _handler.GetParameterMock<IReceiptDocumentsRepository>()
+        _handler.GetParameterMock<IReceiptsRepository>()
             .Setup(r => r.TryGet(command.Number))
             .ReturnsAsync(existingReceipt);
 
@@ -169,7 +169,7 @@ public class ChangeReceiptTests
             }
         };
 
-        _handler.GetParameterMock<IReceiptDocumentsRepository>()
+        _handler.GetParameterMock<IReceiptsRepository>()
             .Setup(r => r.TryGet(command.Number))
             .ReturnsAsync(existingReceipt);
 
@@ -220,7 +220,7 @@ public class ChangeReceiptTests
             }
         };
 
-        _handler.GetParameterMock<IReceiptDocumentsRepository>()
+        _handler.GetParameterMock<IReceiptsRepository>()
             .Setup(r => r.TryGet(command.Number))
             .ReturnsAsync(existingReceipt);
 

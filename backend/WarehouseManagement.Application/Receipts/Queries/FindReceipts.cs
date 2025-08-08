@@ -17,9 +17,9 @@ public record FindReceiptsQuery : IRequest<List<Receipt>>
 
 public class FindReceiptsQueryHandler : IRequestHandler<FindReceiptsQuery, List<Receipt>>
 {
-    private readonly IReceiptDocumentsRepository _receipts;
+    private readonly IReceiptsRepository _receipts;
 
-    public FindReceiptsQueryHandler(IReceiptDocumentsRepository receipts)
+    public FindReceiptsQueryHandler(IReceiptsRepository receipts)
     {
         _receipts = receipts;
     }

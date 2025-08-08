@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarehouseManagement.Domain"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarehouseManagement.Tests", "WarehouseManagement.Tests\WarehouseManagement.Tests.csproj", "{FA31D966-ACD9-45D3-89D4-00BA8BD12851}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarehouseManagement.Persistence", "WarehouseManagement.Persistence\WarehouseManagement.Persistence.csproj", "{F22ED836-194E-4CE1-BA7C-38FECBF0E53C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,18 @@ Global
 		{FA31D966-ACD9-45D3-89D4-00BA8BD12851}.Release|x64.Build.0 = Release|Any CPU
 		{FA31D966-ACD9-45D3-89D4-00BA8BD12851}.Release|x86.ActiveCfg = Release|Any CPU
 		{FA31D966-ACD9-45D3-89D4-00BA8BD12851}.Release|x86.Build.0 = Release|Any CPU
+		{F22ED836-194E-4CE1-BA7C-38FECBF0E53C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F22ED836-194E-4CE1-BA7C-38FECBF0E53C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F22ED836-194E-4CE1-BA7C-38FECBF0E53C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F22ED836-194E-4CE1-BA7C-38FECBF0E53C}.Debug|x64.Build.0 = Debug|Any CPU
+		{F22ED836-194E-4CE1-BA7C-38FECBF0E53C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F22ED836-194E-4CE1-BA7C-38FECBF0E53C}.Debug|x86.Build.0 = Debug|Any CPU
+		{F22ED836-194E-4CE1-BA7C-38FECBF0E53C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F22ED836-194E-4CE1-BA7C-38FECBF0E53C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F22ED836-194E-4CE1-BA7C-38FECBF0E53C}.Release|x64.ActiveCfg = Release|Any CPU
+		{F22ED836-194E-4CE1-BA7C-38FECBF0E53C}.Release|x64.Build.0 = Release|Any CPU
+		{F22ED836-194E-4CE1-BA7C-38FECBF0E53C}.Release|x86.ActiveCfg = Release|Any CPU
+		{F22ED836-194E-4CE1-BA7C-38FECBF0E53C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

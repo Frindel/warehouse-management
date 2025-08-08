@@ -35,7 +35,7 @@ public class FindReceiptsTests
             new Receipt("R002", DateOnly.FromDateTime(DateTime.Now), new List<ReceiptResource>())
         };
 
-        _handler.GetParameterMock<IReceiptDocumentsRepository>()
+        _handler.GetParameterMock<IReceiptsRepository>()
             .Setup(r => r.Find(It.IsAny<List<string>>(), It.IsAny<(DateOnly, DateOnly)?>(), It.IsAny<List<Guid>>(), It.IsAny<List<Guid>>()))
             .ReturnsAsync(expectedReceipts);
 
@@ -59,7 +59,7 @@ public class FindReceiptsTests
             ProductIds = new List<Guid> { Guid.NewGuid() }
         };
 
-        _handler.GetParameterMock<IReceiptDocumentsRepository>()
+        _handler.GetParameterMock<IReceiptsRepository>()
             .Setup(r => r.Find(It.IsAny<List<string>>(), It.IsAny<(DateOnly, DateOnly)?>(), It.IsAny<List<Guid>>(), It.IsAny<List<Guid>>()))
             .ReturnsAsync(new List<Receipt>());
 
@@ -87,7 +87,7 @@ public class FindReceiptsTests
             new Receipt("R001", DateOnly.FromDateTime(DateTime.Now), new List<ReceiptResource>())
         };
 
-        _handler.GetParameterMock<IReceiptDocumentsRepository>()
+        _handler.GetParameterMock<IReceiptsRepository>()
             .Setup(r => r.Find(null, null, null, null))
             .ReturnsAsync(expectedReceipts);
 

@@ -25,7 +25,7 @@ public class GetReceiptTests
         var query = new GetReceiptQuery() { Id = Guid.NewGuid() };
         var expectedReceipt = new Receipt("R001", DateOnly.FromDateTime(DateTime.Now), new List<ReceiptResource>());
 
-        _handler.GetParameterMock<IReceiptDocumentsRepository>()
+        _handler.GetParameterMock<IReceiptsRepository>()
             .Setup(r => r.TryGet(It.IsAny<Guid>()))
             .ReturnsAsync(expectedReceipt);
 
@@ -42,7 +42,7 @@ public class GetReceiptTests
         // Arrange
         var query = new GetReceiptQuery() { Id = Guid.NewGuid() };
 
-        _handler.GetParameterMock<IReceiptDocumentsRepository>()
+        _handler.GetParameterMock<IReceiptsRepository>()
             .Setup(r => r.TryGet(It.IsAny<Guid>()))
             .ReturnsAsync(null as Receipt);
 

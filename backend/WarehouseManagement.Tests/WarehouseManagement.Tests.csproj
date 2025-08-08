@@ -12,6 +12,7 @@
     <ItemGroup>
         <PackageReference Include="coverlet.collector" Version="6.0.0"/>
         <PackageReference Include="Frindel.Mock" Version="1.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.1" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0"/>
         <PackageReference Include="NUnit" Version="3.14.0"/>
         <PackageReference Include="NUnit.Analyzers" Version="3.9.0"/>
@@ -24,6 +25,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\WarehouseManagement.Application\WarehouseManagement.Application.csproj" />
+      <ProjectReference Include="..\WarehouseManagement.Persistence\WarehouseManagement.Persistence.csproj" />
     </ItemGroup>
 
 </Project>
