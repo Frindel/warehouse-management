@@ -1,0 +1,17 @@
+﻿using FluentValidation;
+
+namespace WarehouseManagement.Application.Receipts.Commands;
+
+public class ChangeReceiptValidator : AbstractValidator<ChangeReceiptCommand>
+{
+    public ChangeReceiptValidator()
+    {
+        RuleFor(x => x.Number).NotNull().NotEmpty();
+        RuleForEach(x => x.Resources)
+            .ChildRules(validator =>
+            {
+                validator.RuleFor(x => x.Quantity).GreaterThan(0);
+            })
+            .When(x => x.Resources != null);
+    }
+}

@@ -76,7 +76,7 @@ public class CreateReceiptTests
     }
 
     [Test]
-    public void ThrowsAlreadyExistsException_WhenReceiptNumberAlreadyExists()
+    public void ThrowsReceiptNumberAlreadyExistsException()
     {
         // Arrange
         var command = new CreateReceiptCommand
@@ -94,7 +94,7 @@ public class CreateReceiptTests
     }
 
     [Test]
-    public void ThrowsNotFoundException_WhenResourceNotFound()
+    public void ThrowsResourceNotFoundException()
     {
         // Arrange
         var resourceId = Guid.NewGuid();
@@ -121,7 +121,7 @@ public class CreateReceiptTests
 
         _handler.GetParameterMock<IResourcesRepository>()
             .Setup(r => r.TryGet(resourceId))
-            .ReturnsAsync((Resource)null!); // Not found
+            .ReturnsAsync((Resource)null!);
 
         // Act & Assert
         var ex = Assert.ThrowsAsync<NotFoundException>(() => _handler.Service.Handle(command, CancellationToken.None));
@@ -129,7 +129,7 @@ public class CreateReceiptTests
     }
 
     [Test]
-    public void ThrowsNotFoundException_WhenUnitNotFound()
+    public void ThrowsUnitNotFoundException()
     {
         // Arrange
         var resourceId = Guid.NewGuid();
@@ -162,7 +162,7 @@ public class CreateReceiptTests
 
         _handler.GetParameterMock<IUnitsRepository>()
             .Setup(u => u.TryGet(unitId))
-            .ReturnsAsync((Unit)null!); // Not found
+            .ReturnsAsync((Unit)null!);
 
         // Act & Assert
         var ex = Assert.ThrowsAsync<NotFoundException>(() => _handler.Service.Handle(command, CancellationToken.None));

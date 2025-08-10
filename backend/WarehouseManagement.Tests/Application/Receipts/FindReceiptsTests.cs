@@ -24,7 +24,8 @@ public class FindReceiptsTests
         var query = new FindReceiptsQuery
         {
             Numbers = new List<string> { "R001", "R002" },
-            Period = (DateOnly.FromDateTime(DateTime.Now.AddDays(-10)), DateOnly.FromDateTime(DateTime.Now)),
+            From = DateOnly.FromDateTime(DateTime.Now.AddDays(-10)),
+            To = DateOnly.FromDateTime(DateTime.Now),
             UnitsId = new List<Guid> { Guid.NewGuid() },
             ProductIds = new List<Guid> { Guid.NewGuid() }
         };
@@ -36,7 +37,8 @@ public class FindReceiptsTests
         };
 
         _handler.GetParameterMock<IReceiptsRepository>()
-            .Setup(r => r.Find(It.IsAny<List<string>>(), It.IsAny<(DateOnly, DateOnly)?>(), It.IsAny<List<Guid>>(), It.IsAny<List<Guid>>()))
+            .Setup(r => r.Find(It.IsAny<List<string>>(), It.IsAny<(DateOnly, DateOnly)?>(), It.IsAny<List<Guid>>(),
+                It.IsAny<List<Guid>>()))
             .ReturnsAsync(expectedReceipts);
 
         // Act
@@ -54,13 +56,15 @@ public class FindReceiptsTests
         var query = new FindReceiptsQuery
         {
             Numbers = new List<string> { "R003" },
-            Period = (DateOnly.FromDateTime(DateTime.Now.AddDays(-5)), DateOnly.FromDateTime(DateTime.Now)),
+            From = DateOnly.FromDateTime(DateTime.Now.AddDays(-5)),
+            To = DateOnly.FromDateTime(DateTime.Now),
             UnitsId = new List<Guid> { Guid.NewGuid() },
             ProductIds = new List<Guid> { Guid.NewGuid() }
         };
 
         _handler.GetParameterMock<IReceiptsRepository>()
-            .Setup(r => r.Find(It.IsAny<List<string>>(), It.IsAny<(DateOnly, DateOnly)?>(), It.IsAny<List<Guid>>(), It.IsAny<List<Guid>>()))
+            .Setup(r => r.Find(It.IsAny<List<string>>(), It.IsAny<(DateOnly, DateOnly)?>(), It.IsAny<List<Guid>>(),
+                It.IsAny<List<Guid>>()))
             .ReturnsAsync(new List<Receipt>());
 
         // Act
@@ -77,7 +81,8 @@ public class FindReceiptsTests
         var query = new FindReceiptsQuery
         {
             Numbers = null,
-            Period = null,
+            From = null,
+            To = null,
             UnitsId = null,
             ProductIds = null
         };

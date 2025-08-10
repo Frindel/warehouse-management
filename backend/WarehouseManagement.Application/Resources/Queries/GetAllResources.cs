@@ -4,10 +4,7 @@ using WarehouseManagement.Domain;
 
 namespace WarehouseManagement.Application.Resources.Queries;
 
-public record GetAllResourcesQuery : IRequest<List<Resource>>
-{
-    
-}
+public record GetAllResourcesQuery : IRequest<List<Resource>>;
 
 public class GetAllResourcesQueryHandler : IRequestHandler<GetAllResourcesQuery, List<Resource>>
 {

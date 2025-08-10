@@ -19,13 +19,13 @@ public class Resource
 
     public Resource() { }
 
-    public Resource(string name, bool isArcived = false)
+    public Resource(string name, bool isArchived = false)
     {
         Name = name;
-        IsArchived = isArcived;
+        IsArchived = isArchived;
     }
 
-    public Resource(Guid id, string name, bool isArcived = false) : this(name, isArcived)
+    public Resource(Guid id, string name, bool isArchived = false) : this(name, isArchived)
     {
         Id = id;
     }

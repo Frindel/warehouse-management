@@ -1,8 +1,11 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using AutoMapper;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.Abstractions;
 using ServiceMock;
 using WarehouseManagement.Domain;
 using WarehouseManagement.Persistence;
+using WarehouseManagement.Persistence.Entities;
 using WarehouseManagement.Persistence.Implementations;
 
 namespace WarehouseManagement.Tests.Persistence.Resources;
@@ -17,7 +20,12 @@ public class CreateTests
     public void Setup()
     {
         _context = CreateSqliteInMemoryContext();
-        _repository = new ServiceMock<ResourcesRepository>(options => { options.SetParameter(_context); });
+        var mapper = CreateMapper();
+        _repository = new ServiceMock<ResourcesRepository>(options =>
+        {
+            options.SetParameter(_context);
+            options.SetParameter<IMapper>(mapper);
+        });
     }
 
     [TearDown]
@@ -27,6 +35,15 @@ public class CreateTests
     }
 
     #region Helpers
+
+    private Mapper CreateMapper()
+    {
+        var mapperConfiguration =
+            new MapperConfiguration(
+                config => config.AddMaps(typeof(DataContext).Assembly),
+                NullLoggerFactory.Instance);
+        return new Mapper(mapperConfiguration);
+    }
 
     private DataContext CreateSqliteInMemoryContext()
     {
@@ -38,7 +55,7 @@ public class CreateTests
             .Options;
 
         var context = new DataContext(options);
-        context.Resources.Add(new Resource("iron"));
+        context.Resources.Add(new ResourceEntity("iron"));
         context.SaveChanges();
 
         return context;

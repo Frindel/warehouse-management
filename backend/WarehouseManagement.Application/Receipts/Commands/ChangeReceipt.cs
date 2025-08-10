@@ -15,7 +15,7 @@ public record ChangeReceiptCommand : IRequest<Receipt>
 
     public DateOnly Date { get; set; }
 
-    public List<ChangingReceiptResource> Resources { get; set; } = new();
+    public List<ChangingReceiptResource>? Resources { get; set; }
 }
 
 public class ChangingReceiptResource
@@ -42,12 +42,13 @@ public class ChangeReceiptCommandHandler : IRequestHandler<ChangeReceiptCommand,
 
     public async Task<Receipt> Handle(ChangeReceiptCommand command, CancellationToken cancellationToken)
     {
-        var receipt = await _receipts.TryGet(command.Number);
+        var receipt = await _receipts.TryGet(command.Id);
         if (receipt == null)
-            throw new AlreadyExistsException($"Receipt with number {command.Number} already exists.");
+            throw new NotFoundException($"Receipt with number {command.Number} not found.");
 
         await ChangeReceipt(receipt, command.Number, command.Date);
-        receipt.Resources = await UpdateReceiptResources(receipt.Resources, command.Resources);
+        receipt.Resources =
+            await UpdateReceiptResources(receipt.Resources, command.Resources ?? new List<ChangingReceiptResource>());
 
         await _receipts.Update(receipt);
         return (await _receipts.TryGet(command.Id))!;
@@ -55,7 +56,7 @@ public class ChangeReceiptCommandHandler : IRequestHandler<ChangeReceiptCommand,
 
     async Task ChangeReceipt(Receipt receipt, string number, DateOnly date)
     {
-        if (receipt.Number != number && await _receipts.TryGet(receipt.Number) != null)
+        if (receipt.Number != number && await _receipts.TryGet(number) != null)
             throw new AlreadyExistsException($"Receipt with number {number} already exists.");
 
         receipt.Number = number;
@@ -77,9 +78,6 @@ public class ChangeReceiptCommandHandler : IRequestHandler<ChangeReceiptCommand,
                 ? UpdateExistingResource(existingResources, newResource, resource, unit)
                 : new ReceiptResource(newResource.Quantity, resource, unit));
         }
-
-        updatedResources.AddRange(existingResources
-            .Where(r => !newResources.Any(nr => nr.Id.HasValue && nr.Id == r.Id)));
 
         return updatedResources;
     }

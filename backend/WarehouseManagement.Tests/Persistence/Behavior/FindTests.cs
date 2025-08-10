@@ -1,9 +1,12 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using AutoMapper;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.Abstractions;
 using WarehouseManagement.Domain;
 using WarehouseManagement.Persistence;
 using WarehouseManagement.Persistence.Implementations;
 using ServiceMock;
+using WarehouseManagement.Persistence.Entities;
 
 namespace WarehouseManagement.Tests.Persistence.Behavior;
 
@@ -17,9 +20,11 @@ public class FindTests
     public void Setup()
     {
         _context = CreateSqliteInMemoryContext();
+        var mapper = CreateMapper();
         _repository = new ServiceMock<ReceiptsRepository>(options =>
         {
             options.SetParameter(_context);
+            options.SetParameter<IMapper>(mapper);
         });
     }
 
@@ -30,6 +35,15 @@ public class FindTests
     }
 
     #region Helpers
+
+    private Mapper CreateMapper()
+    {
+        var mapperConfiguration =
+            new MapperConfiguration(
+                config => config.AddMaps(typeof(DataContext).Assembly),
+                NullLoggerFactory.Instance);
+        return new Mapper(mapperConfiguration);
+    }
 
     private DataContext CreateSqliteInMemoryContext()
     {
@@ -44,16 +58,16 @@ public class FindTests
         context.Database.EnsureCreated();
 
         // Test data
-        var unit1 = new Unit("kg");
-        var unit2 = new Unit("l");
-        var product1 = new Resource("iron");
-        var product2 = new Resource("copper");
+        var unit1 = new UnitEntity("kg");
+        var unit2 = new UnitEntity("l");
+        var product1 = new ResourceEntity("iron");
+        var product2 = new ResourceEntity("copper");
 
-        var receipt1 = new Receipt("R-001", new DateOnly(2024, 01, 01));
-        receipt1.Resources.Add(new ReceiptResource { Resource = product1, Unit = unit1 });
+        var receipt1 = new ReceiptDocumentEntity("R-001", new DateOnly(2024, 01, 01));
+        receipt1.Resources.Add(new ReceiptResourceEntity() { Resource = product1, Unit = unit1 });
 
-        var receipt2 = new Receipt("R-002", new DateOnly(2024, 03, 10));
-        receipt2.Resources.Add(new ReceiptResource { Resource = product2, Unit = unit2 });
+        var receipt2 = new ReceiptDocumentEntity("R-002", new DateOnly(2024, 03, 10));
+        receipt2.Resources.Add(new ReceiptResourceEntity { Resource = product2, Unit = unit2 });
 
         context.Receipts.AddRange(receipt1, receipt2);
         context.SaveChanges();

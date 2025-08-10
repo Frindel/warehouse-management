@@ -1,62 +1,88 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 using WarehouseManagement.Application.Common.Contracts;
 using WarehouseManagement.Domain;
+using WarehouseManagement.Persistence.Entities;
 
 namespace WarehouseManagement.Persistence.Implementations;
 
 public class UnitsRepository : IUnitsRepository
 {
     private readonly DataContext _context;
+    private readonly IMapper _mapper;
 
-    public UnitsRepository(DataContext context)
+    public UnitsRepository(DataContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
     public async Task<Guid> Create(Unit unit)
     {
-        unit.Id = Guid.NewGuid();
-        _context.Units.Add(unit);
+        var unitEntity = _mapper.Map<UnitEntity>(unit);
+        _context.Units.Add(unitEntity);
         await _context.SaveChangesAsync();
-        return unit.Id;
+
+        ClearTracking();
+        return unitEntity.Id;
     }
 
     public async Task<Unit?> TryGet(string name)
     {
-        return await _context.Units.FirstOrDefaultAsync(u => u.Name == name);
+        var unitEntity = await _context.Units.FirstOrDefaultAsync(u => u.Name == name);
+        if (unitEntity == null)
+            return null;
+
+        ClearTracking();
+        return _mapper.Map<Unit>(unitEntity);
     }
 
     public async Task<Unit?> TryGet(Guid id)
     {
-        return await _context.Units.FindAsync(id);
+        var unitEntity = await _context.Units.FindAsync(id);
+
+        ClearTracking();
+        return _mapper.Map<Unit>(unitEntity);
     }
 
     public async Task Update(Unit unit)
     {
-        _context.Units.Update(unit);
+        var unitEntity = _mapper.Map<UnitEntity>(unit);
+        _context.Units.Update(unitEntity);
         await _context.SaveChangesAsync();
+        ClearTracking();
     }
 
     public async Task<bool> IsUse(Guid id)
     {
-        return await _context.ReceiptResources.AnyAsync(rr => rr.Unit.Id == id);
+        var isUse = await _context.ReceiptResources.AnyAsync(rr => rr.Unit.Id == id);
+        return isUse;
     }
 
     public async Task Delete(Guid id)
     {
-        var unit = await _context.Units.FindAsync(id);
-        if (unit != null)
-        {
-            _context.Units.Remove(unit);
-            await _context.SaveChangesAsync();
-        }
+        var unitEntity = await _context.Units.FindAsync(id);
+        if (unitEntity == null)
+            return;
+
+        _context.Units.Remove(unitEntity);
+        await _context.SaveChangesAsync();
     }
 
     public async Task<List<Unit>> Find(List<Guid>? ids = null)
     {
-        if (ids == null || !ids.Any())
-            return await _context.Units.ToListAsync();
+        var query = _context.Units;
 
-        return await _context.Units.Where(u => ids.Contains(u.Id)).ToListAsync();
+        if (ids != null && ids.Any())
+            query.Where(u => ids.Contains(u.Id));
+
+        var unitEntities = await query.ToListAsync();
+        
+        ClearTracking();
+        return _mapper.ProjectTo<Unit>(unitEntities.AsQueryable()).ToList();
     }
+
+    void ClearTracking() =>
+        _context.ChangeTracker.Clear();
 }

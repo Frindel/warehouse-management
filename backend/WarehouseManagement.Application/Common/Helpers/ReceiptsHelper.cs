@@ -18,12 +18,16 @@ public class ReceiptsHelper
     internal async Task<Resource> GetResource(Guid id)
     {
         var resource = await _resources.TryGet(id);
-        return resource ?? throw new NotFoundException($"Resource with id {id} not found.");
+        if (resource == null || resource.IsArchived)
+            throw new NotFoundException($"Resource with id {id} not found.");
+        return resource;
     }
 
     internal async Task<Unit> GetUnit(Guid id)
     {
         var unit = await _units.TryGet(id);
-        return unit ?? throw new NotFoundException($"Unit with id {id} not found.");
+        if (unit == null || unit.IsArchived)
+            throw new NotFoundException($"Unit with id {id} not found.");
+        return unit;
     }
 }

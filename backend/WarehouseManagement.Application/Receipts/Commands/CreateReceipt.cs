@@ -12,7 +12,7 @@ public record CreateReceiptCommand : IRequest<Receipt>
 
     public DateOnly Date { get; set; }
 
-    public List<CreatingReceiptResource> Resources { get; set; } = new();
+    public List<CreatingReceiptResource>? Resources { get; set; }
 }
 
 public class CreatingReceiptResource
@@ -37,10 +37,10 @@ public class CreateReceiptCommandHandler : IRequestHandler<CreateReceiptCommand,
 
     public async Task<Receipt> Handle(CreateReceiptCommand command, CancellationToken cancellationToken)
     {
-        if (await _receipts.TryGet(command.Number) is not null)
+        if (await _receipts.TryGet(command.Number) != null)
             throw new AlreadyExistsException($"Receipt with number {command.Number} already exists.");
 
-        var resources = await AssembleReceiptResources(command.Resources);
+        var resources = await AssembleReceiptResources(command.Resources ?? new List<CreatingReceiptResource>());
         var receipt = new Receipt(command.Number, command.Date, resources);
 
         var receiptId = await _receipts.Create(receipt);

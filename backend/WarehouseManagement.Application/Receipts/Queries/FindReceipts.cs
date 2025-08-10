@@ -6,12 +6,14 @@ namespace WarehouseManagement.Application.Receipts.Queries;
 
 public record FindReceiptsQuery : IRequest<List<Receipt>>
 {
-    public List<string>? Numbers { get; set; } = new();
+    public List<string>? Numbers { get; set; }
 
-    public (DateOnly begin, DateOnly end)? Period { get; set; }
+    public DateOnly? From { get; set; }
+
+    public DateOnly? To { get; set; }
 
     public List<Guid>? UnitsId { get; set; }
-    
+
     public List<Guid>? ProductIds { get; set; }
 }
 
@@ -23,9 +25,13 @@ public class FindReceiptsQueryHandler : IRequestHandler<FindReceiptsQuery, List<
     {
         _receipts = receipts;
     }
-    
+
     public async Task<List<Receipt>> Handle(FindReceiptsQuery query, CancellationToken cancellationToken)
     {
-        return await _receipts.Find(query.Numbers, query.Period, query.UnitsId, query.ProductIds);
+        var period = (query.From.HasValue && query.To.HasValue)
+            ? (begin: query.From!.Value, end: query.To!.Value)
+            : ((DateOnly begin, DateOnly end)?)null;
+        return await _receipts.Find(query.Numbers, period, query.UnitsId,
+            query.ProductIds);
     }
 }

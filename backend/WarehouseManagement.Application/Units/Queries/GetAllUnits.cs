@@ -4,10 +4,7 @@ using Unit = WarehouseManagement.Domain.Unit;
 
 namespace WarehouseManagement.Application.Units.Queries;
 
-public record GetAllUnitsQuery : IRequest<List<Unit>>
-{
-    
-}
+public record GetAllUnitsQuery : IRequest<List<Unit>>;
 
 public class GetAllUnitsQueryHandler : IRequestHandler<GetAllUnitsQuery, List<Unit>>
 {
