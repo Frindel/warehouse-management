@@ -1,0 +1,21 @@
+thead tr {
+    background-color: lightgray;
+}
+
+td, th {
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.actions
+{
+    display: flex;
+    gap: 0.3rem;
+}
+
+@media (min-width: 640px) {
+    article {
+        padding-left: 2rem !important;
+        padding-right: 1.5rem !important;
+    }
+}
