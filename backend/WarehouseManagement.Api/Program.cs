@@ -1,3 +1,4 @@
+using WarehouseManagement.Api.Middleware;
 using WarehouseManagement.Application;
 using WarehouseManagement.Persistence;
 
@@ -25,6 +26,7 @@ public class Program
             app.UseSwaggerUI();
         }
         
+        app.UseMiddleware<ExceptionsHandlerMiddleware>();
         app.MapControllers();
         app.Run();
     }
