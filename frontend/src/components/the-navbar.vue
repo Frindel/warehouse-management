@@ -1,5 +1,5 @@
 <script setup>
-
+import {RouterLink } from 'vue-router'
 </script>
 
 <template>
@@ -14,13 +14,16 @@
       <nav class="nav flex-column">
         <div class="nav-item px-3">
           <h4 style="color:white">Склад</h4>
-          <a href="#" class="nav-link">Поступления</a>
+          <router-link :to="{name: 'receipts'}" class="nav-link">Поступления</router-link>
+<!--          <a href="#" class="nav-link">Поступления</a>-->
         </div>
         <div class="nav-item px-3">
           <h4 style="color:white">Справочники</h4>
-          <a href="#" class="nav-link">Единицы
-            измерения</a>
-          <a href="#" class="nav-link">Ресурсы</a>
+          <router-link :to="{name: 'units'}" class="nav-link">Единицы измерения</router-link>
+          <router-link :to="{name: 'resources'}" class="nav-link">Ресурсы</router-link>
+<!--          <a href="#" class="nav-link">Единицы-->
+<!--            измерения</a>-->
+<!--          <a href="#" class="nav-link">Ресурсы</a>-->
         </div>
       </nav>
     </div>

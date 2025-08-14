@@ -1,23 +1,34 @@
 <script setup>
-import {RouterLink, RouterView} from 'vue-router'
+import {RouterView} from 'vue-router'
 import TheNavbar from "@/components/the-navbar.vue";
-import Resources from "@/pages/resources.vue";
-import Receipts from "@/pages/receipts.vue";
-import TheResourceForm from "@/components/the-resource-form.vue";
-import TheReceiptForm from "@/components/the-receipt-form.vue";
+import {onMounted, ref} from "vue";
+
+import {useUnitsStore} from "@/stores/units";
+import {useResourcesStore} from "@/stores/resources.js";
+import ToastMessage from "@/components/toast-message.vue";
+import {useToastStore} from "@/stores/toast.js";
+
+const toast = useToastStore()
+const isLoaded = ref(false);
+
+onMounted(async () => {
+  await useUnitsStore().load()
+  await useResourcesStore().load()
+  isLoaded.value = true
+});
+
 </script>
+
 
 <template>
   <div class="page">
+    <toast-message v-if="toast.message" :message="toast.message" />
     <the-navbar></the-navbar>
     <main>
-<!--      <the-receipt-form></the-receipt-form>-->
-      <receipts></receipts>
+      <router-view v-if="isLoaded"></router-view>
     </main>
   </div>
-  <!--  <RouterView/>-->
 </template>
-
 <style scoped>
 .page {
   position: relative;
