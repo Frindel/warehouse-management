@@ -1,0 +1,34 @@
+services:
+  backend:
+    container_name: warehouse-management-backend
+    image: warehousemanagement.api
+    build:
+      context: /backend
+      dockerfile: /WarehouseManagement.Api/Dockerfile
+    ports:
+      - 8080:8080
+    networks:
+      - warehouse-management
+    depends_on:
+      - db
+
+  db:
+    container_name: warehouse-management-db
+    image: postgres:17.5
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: warehouse_management
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - warehouse-management-data:/var/lib/postgresql/data
+    networks:
+      - warehouse-management
+
+networks:
+  warehouse-management:
+    name: warehouse-management
+    driver: bridge
+
+volumes:
+  warehouse-management-data:
