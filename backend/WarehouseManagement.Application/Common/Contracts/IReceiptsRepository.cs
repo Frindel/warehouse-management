@@ -38,4 +38,8 @@ public interface IReceiptsRepository
     /// <param name="productIds">Id ресурсов</param>
     /// <returns>Документы поступления</returns>
     Task<List<Receipt>> Find(List<string>? number = null, (DateOnly begin, DateOnly end)? period = null, List<Guid>? unitIds = null, List<Guid>? productIds = null);
+    
+    Task<List<Receipt>> GetOnlyReceipts();
+    
+    Task<(DateOnly begin, DateOnly end)> GetMaxPeriod();
 }

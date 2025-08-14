@@ -14,6 +14,7 @@ public class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        builder.Services.AddCors();
         
         builder.Services.OnPersistence(configuration);
         builder.Services.OnApplication();
@@ -26,6 +27,10 @@ public class Program
             app.UseSwaggerUI();
         }
         
+        app.UseCors(options =>
+            options.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod());
         app.UseMiddleware<ExceptionsHandlerMiddleware>();
         app.MapControllers();
         app.Run();

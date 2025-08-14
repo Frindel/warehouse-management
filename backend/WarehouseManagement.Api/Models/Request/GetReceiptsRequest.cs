@@ -8,7 +8,7 @@ public class GetReceiptsRequest
 
     public List<string>? Numbers { get; set; }
 
-    public List<Guid>? ProductIds { get; set; }
+    public List<Guid>? Products { get; set; }
 
-    public List<Guid>? UnitsIds { get; set; }
+    public List<Guid>? Units { get; set; }
 }

@@ -146,6 +146,33 @@ public class ReceiptsRepository : IReceiptsRepository
         return _mapper.ProjectTo<Receipt>(receiptEntities.AsQueryable()).ToList();
     }
 
+    public async Task<List<Receipt>> GetOnlyReceipts()
+    {
+        var receipts = await _context.Receipts.ToListAsync();
+        ClearTracking();
+        return _mapper.Map<List<Receipt>>(receipts);
+    }
+
+
+    public async Task<(DateOnly begin, DateOnly end)> GetMaxPeriod()
+    {
+        DateOnly begin = await _context.Receipts
+            .OrderBy(r => r.Date)
+            .Select(p => p.Date)
+            .FirstOrDefaultAsync();
+        DateOnly end = await _context.Receipts
+            .OrderByDescending(r => r.Date)
+            .Select(p => p.Date)
+            .FirstOrDefaultAsync();
+
+        ClearTracking();
+        var now = DateOnly.FromDateTime(DateTime.Now);
+        return (
+            begin: begin == default ? now : begin,
+            end: end == default ? now : end
+        );
+    }
+
     void ClearTracking() =>
         _context.ChangeTracker.Clear();
 }

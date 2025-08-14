@@ -1,6 +1,6 @@
 ﻿namespace WarehouseManagement.Api.Models.Response;
 
-public class GetReceiptsResponse
+public class ReceiptResponse
 {
     public Guid Id { get; set; }
 
@@ -15,11 +15,11 @@ public class GetReceiptResourceResponse
 {
     public Guid Id { get; set; }
 
-    public Guid ResourceId { get; set; }
+    public Guid Resource { get; set; }
 
     public string ResourceName { get; set; }
 
-    public Guid UnitId { get; set; }
+    public Guid Unit { get; set; }
 
     public string UnitName { get; set; }
 

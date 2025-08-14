@@ -79,6 +79,11 @@ public class ResourcesRepository : IResourcesRepository
         return _mapper.ProjectTo<Resource>(resourceEntity.AsQueryable()).ToList();
     }
     
+    public async Task<List<Guid>> GetAllIds()
+    {
+        return await _context.Resources.Select(r => r.Id).ToListAsync();
+    }
+    
     void ClearTracking() =>
         _context.ChangeTracker.Clear();
 }

@@ -13,9 +13,9 @@ public class CreateReceiptRequest
 
 public class CreateReceiptResourceRequest
 {
-    [Required] public Guid ResourceId { get; set; }
+    [Required] public Guid Resource { get; set; }
 
-    [Required] public Guid UnitId { get; set; }
+    [Required] public Guid Unit { get; set; }
 
     [Required] public int Quantity { get; set; }
 }
